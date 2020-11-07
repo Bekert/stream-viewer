@@ -1,0 +1,59 @@
+{
+	"name": "stream-viewer",
+	"private": true,
+	"scripts": {
+		"commit": "git-cz",
+		"lerna:install": "lerna bootstrap",
+		"lerna:run": "lerna run",
+		"prettier:check": "prettier --check .",
+		"prettier:fix": "prettier --write .",
+		"eslint:check": "eslint .",
+		"lint": "yarn eslint:check && yarn prettier:check",
+		"lint:fix": "yarn eslint:check && yarn prettier:fix"
+	},
+	"workspaces": [
+		"packages/*",
+		"plugins/*"
+	],
+	"lerna": {
+		"npmClient": "yarn",
+		"packages": [
+			"packages/*",
+			"plugins/*"
+		],
+		"version": "0.0.0"
+	},
+	"config": {
+		"commitizen": {
+			"path": "cz-customizable"
+		},
+		"cz-customizable": {
+			"config": "./configs/commits/commitizen.js"
+		}
+	},
+	"lint-staged": {
+		"*.{html,md,json,yml,yaml,js,css,scss}": "yarn lint:fix"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g ./configs/commits/commitlint.js",
+			"pre-commit": "lint-staged"
+		}
+	},
+	"prettier": "./configs/linters/.prettierrc.json",
+	"eslintConfig": {
+		"extends": [
+			"./configs/linters/.eslintrc.json"
+		]
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^11.0.0",
+		"commitizen": "^4.2.2",
+		"cz-customizable": "^6.3.0",
+		"eslint": "^7.12.1",
+		"husky": "^4.3.0",
+		"lerna": "^3.22.1",
+		"lint-staged": "^10.5.1",
+		"prettier": "^2.1.2"
+	}
+}

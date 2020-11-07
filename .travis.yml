@@ -1,0 +1,12 @@
+language: node_js
+
+node_js:
+    - 15.0.1
+
+install:
+    - yarn
+    - yarn lerna:install
+    - yarn lerna:run build
+
+script:
+    - yarn lint
