@@ -1,0 +1,10 @@
+.grid-item {
+	position: relative;
+}
+
+.resizer {
+	position: absolute;
+	width: 5px;
+	height: 100%;
+	background-color: blue;
+}
