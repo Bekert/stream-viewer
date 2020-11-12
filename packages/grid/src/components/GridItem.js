@@ -7,7 +7,9 @@ export function GridItem({ index }) {
 			style={{
 				backgroundColor: `rgb(${Math.floor(Math.random() * (100 - 70) + 70)}, ${Math.floor(
 					Math.random() * (255 - 150) + 150
-				)}, 20`
+				)}, 20`,
+				height: '100%',
+				width: '100%'
 			}}
 		>
 			Pepega {index + 1}
