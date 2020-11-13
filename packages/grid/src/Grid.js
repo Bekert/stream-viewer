@@ -18,7 +18,7 @@ function toGridTemplate(array) {
 	return array.map(value => `${value}%`).join(' ')
 }
 
-export function Grid({ children, placeholder }) {
+export function Grid({ children, placeholder, minSize }) {
 	const isLengthEqual = children.every(cols => cols.length === children[0].length)
 	if (!isLengthEqual) {
 		throw new Error('Something went wrong')
@@ -26,17 +26,21 @@ export function Grid({ children, placeholder }) {
 
 	const wrapper = useRef(null)
 
-	const [initialRows, initialRow] = useMemo(() => [children, children[0]], [children])
+	minSize = useMemo(() => minSize)
 
-	const initialRowSize = useMemo(() => 100 / initialRows.length, [initialRows])
-	const initialColSize = useMemo(() => 100 / initialRow.length, [initialRow])
+	const [initialRows, initialRow] = useMemo(() => [children, children[0]])
+
+	const initialRowSize = useMemo(() => 100 / initialRows.length)
+	const initialColSize = useMemo(() => 100 / initialRow.length)
+
+	if (!initialRowSize > minSize || !initialColSize > minSize) {
+		throw new Error('Something went wrong')
+	}
 
 	const [template, setTemplate] = useState(toTemplate(initialRows))
 
 	const [colValues, setColValues] = useState(new Array(initialRow.length).fill(initialColSize))
 	const [rowValues, setRowValues] = useState(new Array(initialRows.length).fill(initialRowSize))
-
-	const MIN_SIZE = 3
 
 	function resizeColHandler(event) {
 		const wrapperWidth = wrapper.current.clientWidth
@@ -57,7 +61,7 @@ export function Grid({ children, placeholder }) {
 			const currentBlockWidth = blockWidthPercent - currentWidth
 			const currentPrevBlockWidth = +prevBlockWidthPercent + currentWidth
 
-			if (currentPrevBlockWidth > MIN_SIZE && currentBlockWidth > MIN_SIZE) {
+			if (currentPrevBlockWidth > minSize && currentBlockWidth > minSize) {
 				const prevColValues = [...colValues]
 				prevColValues[blockCol - 1] = currentBlockWidth
 				prevColValues[blockCol - 2] = currentPrevBlockWidth
@@ -95,7 +99,7 @@ export function Grid({ children, placeholder }) {
 			const currentBlockHeight = blockHeightPercent - currentHeight
 			const currentPrevBlockHeight = +prevBlockHeightPercent + currentHeight
 
-			if (currentBlockHeight > MIN_SIZE && currentPrevBlockHeight > MIN_SIZE) {
+			if (currentBlockHeight > minSize && currentPrevBlockHeight > minSize) {
 				const prevRowValues = [...rowValues]
 				prevRowValues[blockRow - 1] = currentBlockHeight
 				prevRowValues[blockRow - 2] = currentPrevBlockHeight
@@ -176,5 +180,6 @@ export function Grid({ children, placeholder }) {
 
 Grid.propTypes = {
 	children: PropTypes.any,
-	placeholder: PropTypes.any
+	placeholder: PropTypes.any,
+	minSize: PropTypes.number
 }
