@@ -20,23 +20,21 @@ function toGridTemplate(array) {
 
 export function Grid({ children, placeholder }) {
 	const isLengthEqual = children.every(cols => cols.length === children[0].length)
-
 	if (!isLengthEqual) {
 		throw new Error('Something went wrong')
 	}
 
 	const wrapper = useRef(null)
 
-	const initialRows = children
-	const initialRow = initialRows[0]
+	const [initialRows, initialRow] = useMemo(() => [children, children[0]], [children])
 
-	const initialColWidth = 100 / initialRow.length
-	const initialRowHeight = 100 / initialRows.length
+	const initialRowSize = useMemo(() => 100 / initialRows.length, [initialRows])
+	const initialColSize = useMemo(() => 100 / initialRow.length, [initialRow])
 
 	const [template, setTemplate] = useState(toTemplate(initialRows))
 
-	const [colValues, setColValues] = useState(new Array(initialRow.length).fill(initialColWidth))
-	const [rowValues, setRowValues] = useState(new Array(initialRows.length).fill(initialRowHeight))
+	const [colValues, setColValues] = useState(new Array(initialRow.length).fill(initialColSize))
+	const [rowValues, setRowValues] = useState(new Array(initialRows.length).fill(initialRowSize))
 
 	const MIN_SIZE = 3
 
