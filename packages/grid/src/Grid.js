@@ -18,6 +18,10 @@ function toGridTemplate(array) {
 	return array.map(value => `${value}%`).join(' ')
 }
 
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
 export function Grid({ children, placeholder, minSize }) {
 	const isLengthEqual = children.every(cols => cols.length === children[0].length)
 	if (!isLengthEqual) {
@@ -39,72 +43,42 @@ export function Grid({ children, placeholder, minSize }) {
 
 	const [template, setTemplate] = useState(toTemplate(initialRows))
 
-	const [colValues, setColValues] = useState(new Array(initialRow.length).fill(initialColSize))
-	const [rowValues, setRowValues] = useState(new Array(initialRows.length).fill(initialRowSize))
+	const [values, setValues] = useState({
+		cols: new Array(initialRow.length).fill(initialColSize),
+		rows: new Array(initialRows.length).fill(initialRowSize)
+	})
 
-	function resizeColHandler(event) {
-		const wrapperWidth = wrapper.current.clientWidth
+	function resizeHandler(event) {
+		const resizer = event.target
 
-		const block = event.target.parentElement
-		const blockCol = block.dataset.col.split('/')[0]
-		const blockWidthPercent = colValues[blockCol - 1]
+		const type = resizer.dataset.resizer
+		const size = type === 'cols' ? 'width' : 'height'
+		const axis = type === 'cols' ? 'x' : 'y'
+
+		const wrapperSize = wrapper.current[`client${capitalizeFirstLetter(size)}`]
+
+		const block = resizer.parentElement
+		const blockLine = block.dataset[type].split('/')[0]
+		const blockWidth = values[type][blockLine - 1]
 		const blockCoords = block.getBoundingClientRect()
-		const blockDeltaX = blockCoords.x - blockCoords.width
+		const blockDelta = blockCoords[axis] - blockCoords[size]
 
-		const prevBlockWidthPercent = colValues[blockCol - 2]
+		const prevBlockWidth = values[type][blockLine - 2]
 
 		function onMousemove(event) {
-			const delta = event.pageX - blockDeltaX
+			const delta = event[`page${capitalizeFirstLetter(axis)}`] - blockDelta
 
-			const currentWidth = (delta / wrapperWidth) * 100 - blockWidthPercent
+			const currentWidth = (delta / wrapperSize) * 100 - blockWidth
 
-			const currentBlockWidth = blockWidthPercent - currentWidth
-			const currentPrevBlockWidth = +prevBlockWidthPercent + currentWidth
+			const currentBlockWidth = blockWidth - currentWidth
+			const currentPrevBlockWidth = +prevBlockWidth + currentWidth
 
 			if (currentPrevBlockWidth > minSize && currentBlockWidth > minSize) {
-				const prevColValues = [...colValues]
-				prevColValues[blockCol - 1] = currentBlockWidth
-				prevColValues[blockCol - 2] = currentPrevBlockWidth
+				const prevValues = [...values[type]]
+				prevValues[blockLine - 1] = currentBlockWidth
+				prevValues[blockLine - 2] = currentPrevBlockWidth
 
-				setColValues(prevColValues)
-			}
-		}
-
-		document.addEventListener('mousemove', onMousemove)
-
-		function onMouseup() {
-			document.removeEventListener('mousemove', onMousemove)
-			document.removeEventListener('mouseup', onMouseup)
-		}
-
-		document.addEventListener('mouseup', onMouseup)
-	}
-
-	function resizeRowHandler(event) {
-		const wrapperHeight = wrapper.current.clientHeight
-
-		const block = event.target.parentElement
-		const blockRow = block.dataset.row.split('/')[0]
-		const blockHeightPercent = rowValues[blockRow - 1]
-		const blockCoords = block.getBoundingClientRect()
-		const blockDeltaY = blockCoords.y - blockCoords.height
-
-		const prevBlockHeightPercent = rowValues[blockRow - 2]
-
-		function onMousemove(event) {
-			const delta = event.pageY - blockDeltaY
-
-			const currentHeight = (delta / wrapperHeight) * 100 - blockHeightPercent
-
-			const currentBlockHeight = blockHeightPercent - currentHeight
-			const currentPrevBlockHeight = +prevBlockHeightPercent + currentHeight
-
-			if (currentBlockHeight > minSize && currentPrevBlockHeight > minSize) {
-				const prevRowValues = [...rowValues]
-				prevRowValues[blockRow - 1] = currentBlockHeight
-				prevRowValues[blockRow - 2] = currentPrevBlockHeight
-
-				setRowValues(prevRowValues)
+				setValues({ ...values, [type]: prevValues })
 			}
 		}
 
@@ -134,8 +108,8 @@ export function Grid({ children, placeholder, minSize }) {
 				className='wrapper'
 				style={{
 					display: 'grid',
-					gridTemplateColumns: toGridTemplate(colValues),
-					gridTemplateRows: toGridTemplate(rowValues),
+					gridTemplateColumns: toGridTemplate(values.cols),
+					gridTemplateRows: toGridTemplate(values.rows),
 					margin: '10px'
 				}}
 				ref={wrapper}
@@ -148,22 +122,22 @@ export function Grid({ children, placeholder, minSize }) {
 								style={{ gridColumn: col.colLocation, gridRow: col.rowLocation }}
 								className='grid-item'
 								key={col.colLocation}
-								data-col={col.colLocation}
-								data-row={col.rowLocation}
+								data-cols={col.colLocation}
+								data-rows={col.rowLocation}
 							>
 								{col.rowLocation !== '1/1' && (
 									<div
 										className='resizer'
-										data-resizer
-										onMouseDown={resizeRowHandler}
+										data-resizer='rows'
+										onMouseDown={resizeHandler}
 										style={{ height: '5px', width: '100%' }}
 									/>
 								)}
 								{col.colLocation !== '1/1' && (
 									<div
 										className='resizer'
-										data-resizer
-										onMouseDown={resizeColHandler}
+										data-resizer='cols'
+										onMouseDown={resizeHandler}
 										style={{ width: '5px', height: '100%' }}
 									/>
 								)}
