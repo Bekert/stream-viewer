@@ -2,24 +2,20 @@ import React, { useMemo, useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import './Grid.css'
 
-function toCssVar(variable, full) {
-	if (full) {
-		return `var(--${variable})`
-	}
-	return `--${variable}`
-}
-
-function toVariablesObject(array, variableName) {
-	return array.reduce(
-		(prev, current, index) => (
-			(prev[toCssVar(`${variableName}${index + 1}`)] = `${current}%`), prev
-		),
-		{}
+function toTemplate(array) {
+	return array.map((row, rowIndex) =>
+		row.map((col, colIndex) => {
+			return {
+				template: col,
+				colLocation: `${colIndex + 1}/${colIndex + 1}`,
+				rowLocation: `${rowIndex + 1}/${rowIndex + 1}`
+			}
+		})
 	)
 }
 
-function toGridTemplateArray(array, variableName) {
-	return array.map((_, index) => toCssVar(`${variableName}${index + 1}`, true))
+function toGridTemplate(array) {
+	return array.map(value => `${value}%`).join(' ')
 }
 
 export function Grid({ children, placeholder }) {
@@ -37,36 +33,10 @@ export function Grid({ children, placeholder }) {
 	const initialColWidth = 100 / initialRow.length
 	const initialRowHeight = 100 / initialRows.length
 
-	const [gridTemplate, setGridTemplate] = useState(
-		initialRows.map((row, rowIndex) =>
-			row.map((col, colIndex) => {
-				return {
-					template: col,
-					colLocation: `${colIndex + 1}/${colIndex + 1}`,
-					rowLocation: `${rowIndex + 1}/${rowIndex + 1}`
-				}
-			})
-		)
-	)
+	const [template, setTemplate] = useState(toTemplate(initialRows))
 
 	const [colValues, setColValues] = useState(new Array(initialRow.length).fill(initialColWidth))
 	const [rowValues, setRowValues] = useState(new Array(initialRows.length).fill(initialRowHeight))
-
-	let colVariables = toVariablesObject(colValues, 'col')
-	let gridTemplateColumns = toGridTemplateArray(colValues, 'col')
-
-	let rowVariables = toVariablesObject(rowValues, 'row')
-	let gridTemplateRows = toGridTemplateArray(rowValues, 'row')
-
-	useEffect(() => {
-		colVariables = toVariablesObject(colValues)
-		gridTemplateColumns = toGridTemplateArray(colValues, 'col')
-	}, [colValues])
-
-	useEffect(() => {
-		rowVariables = toVariablesObject(rowValues, 'row')
-		gridTemplateRows = toGridTemplateArray(rowValues, 'row')
-	}, [rowValues])
 
 	const MIN_SIZE = 3
 
@@ -161,17 +131,15 @@ export function Grid({ children, placeholder }) {
 			<div
 				className='wrapper'
 				style={{
-					...colVariables,
-					...rowVariables,
 					display: 'grid',
-					gridTemplateColumns: gridTemplateColumns.join(''),
-					gridTemplateRows: gridTemplateRows.join(''),
+					gridTemplateColumns: toGridTemplate(colValues),
+					gridTemplateRows: toGridTemplate(rowValues),
 					margin: '10px'
 				}}
 				ref={wrapper}
 			>
 				<div className='add-col-btn' onClick={plusCol} />
-				{gridTemplate.map(row => {
+				{template.map(row => {
 					return row.map(col => {
 						return (
 							<div
