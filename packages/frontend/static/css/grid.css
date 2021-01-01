@@ -1,0 +1,23 @@
+@import './grid/chat.css';
+@import './grid/player.css';
+
+.grid {
+	flex-grow: 1;
+}
+
+.grid__item {
+	height: 100%;
+	display: flex;
+	position: relative;
+}
+
+.grid__item__header {
+	visibility: hidden;
+	/* ^^^ dev */
+	position: absolute;
+	top: 0;
+	width: 100%;
+	background-color: var(--primary);
+	display: flex;
+	justify-content: center;
+}

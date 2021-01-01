@@ -1,0 +1,70 @@
+.grid__item__chat {
+	width: 30%;
+	display: flex;
+	flex-direction: column;
+}
+
+.chat__list {
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+	flex-grow: 1;
+	background-color: var(--primary);
+}
+
+.chat__message {
+	display: flex;
+	background-color: var(--secondary);
+	padding: 3px 10px 3px 10px;
+}
+
+.chat__message:nth-child(2) {
+	background-color: var(--primary);
+}
+
+.chat__message__time,
+.chat__message__user,
+.chat__message__text {
+	user-select: text;
+}
+
+.chat__message__time,
+.chat__message__user,
+.chat__message__user-icons {
+	white-space: nowrap;
+}
+
+.chat__message__text {
+	overflow-wrap: break-word;
+	overflow: hidden;
+}
+
+.chat__message__time {
+	color: gray;
+}
+
+/* dev */
+.chat__message__user {
+	color: red;
+}
+
+.chat__textarea {
+	display: flex;
+	background-color: var(--secondary);
+}
+
+.chat__input {
+	flex-grow: 1;
+	outline: none;
+	background-color: var(--secondary);
+	border: 1px solid var(--accent);
+	overflow: hidden;
+}
+
+.chat__input:focus {
+	border: 1px solid var(--thirdly);
+}
+
+.chat__smile-icon {
+	padding: 0 2px 0 2px;
+}
