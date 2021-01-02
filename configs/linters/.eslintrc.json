@@ -2,9 +2,9 @@
 	"parserOptions": {
 		"ecmaVersion": 2021,
 		"sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true
-        }
+		"ecmaFeatures": {
+			"jsx": true
+		}
 	},
 	"env": {
 		"es6": true,
@@ -12,9 +12,9 @@
 		"browser": true
 	},
 	"rules": {
-		"no-unused-vars": "warn",
+		"no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
 		"semi": ["error", "never"],
-		"max-len": ["warn", {"code": 120}],
+		"max-len": ["warn", { "code": 100 }],
 		"quotes": ["error", "single"],
 		"jsx-quotes": ["error", "prefer-single"],
 		"quote-props": ["error", "as-needed"],
