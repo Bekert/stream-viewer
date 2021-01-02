@@ -1,3 +1,4 @@
 {
-	"name": "@stream-viewer/frontend"
+	"name": "@stream-viewer/frontend",
+	"version": "1.0.0"
 }

@@ -1,5 +1,4 @@
 .grid__item__player {
-	width: 70%;
 	background-color: var(--primary);
 	position: relative;
 	display: flex;

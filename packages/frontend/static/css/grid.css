@@ -3,6 +3,7 @@
 
 .grid {
 	flex-grow: 1;
+	overflow: hidden;
 }
 
 .grid__item {
@@ -20,4 +21,14 @@
 	background-color: var(--primary);
 	display: flex;
 	justify-content: center;
+}
+
+.grid__container {
+	height: 100%;
+	width: 100%;
+	display: flex;
+}
+
+.grid__container--vertical {
+	flex-direction: column;
 }

@@ -1,5 +1,4 @@
 .grid__item__chat {
-	width: 30%;
 	display: flex;
 	flex-direction: column;
 }
