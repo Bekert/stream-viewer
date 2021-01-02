@@ -1,0 +1,57 @@
+.navbar__tab {
+	background-color: var(--secondary);
+	margin-left: 2px;
+	position: relative;
+	transition: 0.1s;
+}
+
+.navbar__tab--active {
+	background-color: var(--accent);
+}
+
+.navbar__tab__title {
+	padding: 7px;
+}
+
+.navbar__tab__status {
+	transition: 0.1s;
+	width: 100%;
+	height: 1px;
+	position: absolute;
+}
+
+.navbar__tab:hover .navbar__tab__status {
+	background-color: var(--thirdly);
+}
+
+.navbar__tab--active .navbar__tab__status {
+	background-color: var(--invert);
+}
+
+.navbar__tab__indications {
+	position: absolute;
+	display: flex;
+	bottom: 0;
+	width: 100%;
+	justify-content: space-between;
+	margin-bottom: 3px;
+}
+
+.navbar__indication {
+	height: 1px;
+	margin-left: 5px;
+}
+
+.navbar__indication:last-child {
+	margin-right: 5px;
+}
+
+.navbar__indication--notice {
+	flex-grow: 1;
+	background-color: orange;
+}
+
+.navbar__indication--live {
+	flex-grow: 1;
+	background-color: red;
+}

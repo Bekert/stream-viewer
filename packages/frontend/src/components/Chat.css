@@ -1,0 +1,37 @@
+.grid__item__chat {
+	display: flex;
+	flex-direction: column;
+}
+
+.chat__list {
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+	flex-grow: 1;
+	background-color: var(--primary);
+}
+
+.chat__textarea {
+	display: flex;
+	background-color: var(--secondary);
+}
+
+.chat__input {
+	flex-grow: 1;
+	outline: none;
+	background-color: var(--secondary);
+	border: 1px solid var(--accent);
+	overflow: hidden;
+}
+
+.chat__input:focus {
+	border: 1px solid var(--thirdly);
+}
+
+.chat__smile-icon {
+	padding: 0 2px 0 2px;
+}
+
+ChatMessage:nth-child(2) {
+	background-color: var(--primary);
+}

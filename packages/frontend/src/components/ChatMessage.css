@@ -1,0 +1,31 @@
+.chat__message {
+	display: flex;
+	background-color: var(--secondary);
+	padding: 3px 10px 3px 10px;
+}
+
+.chat__message__time,
+.chat__message__user,
+.chat__message__text {
+	user-select: text;
+}
+
+.chat__message__time,
+.chat__message__user,
+.chat__message__user-icons {
+	white-space: nowrap;
+}
+
+.chat__message__text {
+	overflow-wrap: break-word;
+	overflow: hidden;
+}
+
+.chat__message__time {
+	color: gray;
+}
+
+/* dev */
+.chat__message__user {
+	color: red;
+}
