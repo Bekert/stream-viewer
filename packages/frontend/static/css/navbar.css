@@ -1,8 +1,0 @@
-@import './navbar/hearder.css';
-@import './navbar/dashboard.css';
-
-.navbar {
-	display: flex;
-	flex-direction: column;
-	background-color: var(--primary);
-}
