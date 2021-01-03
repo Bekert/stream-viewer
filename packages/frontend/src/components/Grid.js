@@ -1,22 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './GridItem.css'
+import './Grid.css'
 
-import { Chat } from '../Chat'
-import { Player } from '../Player'
+import { Chat } from './Chat'
+import { Player } from './Player'
 
-export function GridItem({ state }) {
+export function Grid({ state }) {
 	const sizeType = state.isHorizontal ? 'width' : 'height'
 	if (state.items) {
+		const isChildrenHorizontal = state.items[0].isHorizontal
+
+		const brType = isChildrenHorizontal ? 'vbr' : 'br'
+
 		const containerStyles = `
-			grid__container ${!state.items[0].isHorizontal ? 'grid__container--vertical' : ''}
+			grid__container ${!isChildrenHorizontal ? 'grid__container--vertical' : ''}
 		`
 		return (
 			<div className={containerStyles} style={{ [sizeType]: state.itemSize }}>
-				{state.items.map((item, index) => (
-					<GridItem state={item} key={index} />
-				))}
+				{state.items.map((item, index) => {
+					return (
+						<>
+							{index > 0 && <div className={brType}></div>}
+							<Grid state={item} key={index} />
+						</>
+					)
+				})}
 			</div>
 		)
 	} else {
@@ -28,12 +37,14 @@ export function GridItem({ state }) {
 
 				<Player size={state.playerSize} />
 
+				<div className='vbr'></div>
+
 				<Chat size={state.chatSize} />
 			</div>
 		)
 	}
 }
 
-GridItem.propTypes = {
+Grid.propTypes = {
 	state: PropTypes.any
 }
