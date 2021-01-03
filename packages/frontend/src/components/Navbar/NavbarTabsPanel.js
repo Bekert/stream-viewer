@@ -1,12 +1,27 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import './NavbarTabsPanel.css'
 
 import { NavbarTab } from './NavbarTab'
 
-export function NavbarTabsPanel() {
+export function NavbarTabsPanel({ state }) {
 	return (
 		<div className='navbar__tabs-panel'>
-			<NavbarTab name='pepega' isActive={true} indications={['live', 'notice']} />
+			{state.map((tab, index) => {
+				return (
+					<NavbarTab
+						key={index}
+						name={tab.name}
+						isActive={tab.isActive}
+						indications={tab.indications}
+					/>
+				)
+			})}
 		</div>
 	)
+}
+
+NavbarTabsPanel.propTypes = {
+	state: PropTypes.any
 }

@@ -4,6 +4,8 @@ import './NavbarTab.css'
 import PropTypes from 'prop-types'
 
 export function NavbarTab({ name, isActive, indications }) {
+	console.log(isActive)
+
 	const tabClasses = `navbar__tab ${isActive ? 'navbar__tab--active' : ''}`
 
 	return (

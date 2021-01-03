@@ -6,22 +6,34 @@ import './GridItem.css'
 import { Chat } from '../Chat'
 import { Player } from '../Player'
 
-export function GridItem({ itemSize, playerSize, chatSize }) {
-	return (
-		<div className='grid__item' style={{ ...itemSize }}>
-			<div className='grid__item__header'>
-				<div className='grid__item__title'>pepegert</div>
+export function GridItem({ state }) {
+	const sizeType = state.isHorizontal ? 'width' : 'height'
+	if (state.items) {
+		const containerStyles = `
+			grid__container ${!state.items[0].isHorizontal ? 'grid__container--vertical' : ''}
+		`
+		return (
+			<div className={containerStyles} style={{ [sizeType]: state.itemSize }}>
+				{state.items.map((item, index) => (
+					<GridItem state={item} key={index} />
+				))}
 			</div>
+		)
+	} else {
+		return (
+			<div className='grid__item' style={{ [sizeType]: state.itemSize }}>
+				<div className='grid__item__header'>
+					<div className='grid__item__title'>{state.channel}</div>
+				</div>
 
-			<Player size={playerSize} />
+				<Player size={state.playerSize} />
 
-			<Chat size={chatSize} />
-		</div>
-	)
+				<Chat size={state.chatSize} />
+			</div>
+		)
+	}
 }
 
 GridItem.propTypes = {
-	itemSize: PropTypes.object,
-	playerSize: PropTypes.string,
-	chatSize: PropTypes.string
+	state: PropTypes.any
 }

@@ -4,6 +4,10 @@
 	padding: 3px 10px 3px 10px;
 }
 
+.chat__message:nth-child(2) {
+	background-color: var(--primary);
+}
+
 .chat__message__time,
 .chat__message__user,
 .chat__message__text {

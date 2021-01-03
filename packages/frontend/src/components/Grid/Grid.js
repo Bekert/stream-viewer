@@ -1,16 +1,24 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import './Grid.css'
 
 import { GridItem } from './GridItem'
 
-export function Grid() {
+export function Grid({ state }) {
 	return (
 		<div className='grid'>
 			<div className='grid__container' style={{ width: '100%' }}>
-				<GridItem itemSize={{ width: '100%' }} playerSize='50%' chatSize='50%' />
+				{state.map((item, index) => {
+					return <GridItem state={item} key={index} />
+				})}
 			</div>
 		</div>
 	)
+}
+
+Grid.propTypes = {
+	state: PropTypes.any
 }
 
 // itemSize --- {width: '100%'}

@@ -31,7 +31,3 @@
 .chat__smile-icon {
 	padding: 0 2px 0 2px;
 }
-
-ChatMessage:nth-child(2) {
-	background-color: var(--primary);
-}
