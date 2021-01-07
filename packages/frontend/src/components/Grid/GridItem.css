@@ -1,0 +1,20 @@
+.grid__item {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	position: relative;
+}
+
+.grid__item--vertical {
+	flex-direction: column;
+}
+
+.grid__item__header {
+	display: none;
+	position: absolute;
+	z-index: 1000;
+	top: 0;
+	width: 100%;
+	background-color: var(--primary);
+	text-align: center;
+}

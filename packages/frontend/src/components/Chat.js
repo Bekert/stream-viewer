@@ -7,7 +7,7 @@ import { ChatMessage } from './ChatMessage'
 
 export function Chat({ size }) {
 	return (
-		<div className='grid__item__chat' style={{ width: size }}>
+		<div className='grid__item__chat' style={size}>
 			<div className='chat__list'>
 				<ChatMessage time='20:30' user='Pepega' text='hahahahah' />
 				<ChatMessage time='20:31' user='Zuzuga' text='hahahahah' />
@@ -21,5 +21,5 @@ export function Chat({ size }) {
 }
 
 Chat.propTypes = {
-	size: PropTypes.string
+	size: PropTypes.any
 }

@@ -5,10 +5,10 @@ import './variables.css'
 import './App.css'
 
 import { Navbar } from './components/Navbar/Navbar'
-import { Grid } from './components/Grid'
+import { Grid } from './components/Grid/Grid'
 
 // for tests
-const state = [
+const tabs = [
 	{
 		name: 'pepega1',
 		isActive: true,
@@ -19,6 +19,7 @@ const state = [
 			items: [
 				{
 					isHorizontal: true,
+					isElementsHorizontal: false,
 					channel: 'pepega1',
 					itemSize: '30%',
 					playerSize: '60%',
@@ -30,6 +31,7 @@ const state = [
 					items: [
 						{
 							isHorizontal: true,
+							isElementsHorizontal: true,
 							channel: 'pepega2',
 							itemSize: '60%',
 							playerSize: '60%',
@@ -41,6 +43,7 @@ const state = [
 							items: [
 								{
 									isHorizontal: false,
+									isElementsHorizontal: true,
 									channel: 'pepega3',
 									itemSize: '60%',
 									playerSize: '60%',
@@ -48,10 +51,11 @@ const state = [
 								},
 								{
 									isHorizontal: false,
+									isElementsHorizontal: false,
 									channel: 'pepega4',
 									itemSize: '40%',
-									playerSize: '50%',
-									chatSize: '50%'
+									playerSize: '100%',
+									chatSize: '0%'
 								}
 							]
 						}
@@ -112,8 +116,8 @@ const state = [
 export function App() {
 	return (
 		<div className='container'>
-			<Navbar state={state} />
-			<Grid state={state[0].grid} />
+			<Navbar state={tabs} />
+			<Grid tab={tabs[0].grid} />
 		</div>
 	)
 }

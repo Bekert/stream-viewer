@@ -5,7 +5,7 @@ import './Player.css'
 
 export function Player({ size }) {
 	return (
-		<div className='grid__item__player' style={{ width: size }}>
+		<div className='grid__item__player' style={size}>
 			<video className='player__video' src='/static/video.mp4'></video>
 			<div className='player__overlay'>
 				<div className='player__overlay__top-gradient'></div>
@@ -56,5 +56,5 @@ export function Player({ size }) {
 }
 
 Player.propTypes = {
-	size: PropTypes.string
+	size: PropTypes.any
 }
